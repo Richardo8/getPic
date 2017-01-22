@@ -1,6 +1,6 @@
 var fs = require('fs'),
     path = require('path'),
-    exts = ['txt'];
+    exts = ['.txt'];
 
 var readFiles = function (movieDir) {
     return new Promise(function (resolve, reject) {
