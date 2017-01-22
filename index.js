@@ -21,23 +21,25 @@ var app = new koa();
 //     ctx.response.body = '<h1>'+html+'</h1>'
 // })
 app.use(async (ctx, next) => {
-    const name = await readFiles(movieDir);
+    const files = await readFiles(movieDir);
+    ctx.state.movieFiles = files;
     await next();
-    console.log(name);
+    // console.log(files);
     ctx.response.type = 'text/html';
-    ctx.response.body += '<h1>'+name+'</h1>'
+    ctx.response.body += '<h1>'+files+'</h1>'
 })
 
 app.use(async (ctx, next) => {
-    const html  = await getPic('盗梦空间');
+    const html  = await getPic(ctx.state.movieFiles);
+    ctx.state.movieUrl = html;
     await next();
-    console.log(html);
+    // console.log(html);
     ctx.response.type = 'text/html';
     ctx.response.body += '<h1>'+html+'</h1>'
 })
 
 app.use(async (ctx, next) => {
-    await savePoster(movieDir, '盗梦空间','https://img3.doubanio.com/view/movie_poster_cover/lpst/public/p513344864.jpg');
+    await savePoster(movieDir, ctx.state.movieFiles, ctx.state.movieUrl);
     await next();
 })
 
