@@ -1,6 +1,8 @@
 var koa = require('koa');
 var fs = require('fs');
-var getPic = require('./middle/getPic');
+var getPic = require('./middle/getPic'),
+    readFiles = require('./middle/readFiles'),
+    movieDir = __dirname + '/movies';
 var app = new koa();
 
 // app.use(async (ctx, next) => {
@@ -23,7 +25,15 @@ app.use(async (ctx, next) => {
     await next();
     console.log(html);
     ctx.response.type = 'text/html';
-    ctx.response.body = '<h1>'+html+'</h1>'
+    ctx.response.body += '<h1>'+html+'</h1>'
+})
+
+app.use(async (ctx, next) => {
+    const name = await readFiles(movieDir);
+    await next();
+    console.log(name);
+    ctx.response.type = 'text/html';
+    ctx.response.body += '<h1>'+name+'</h1>'
 })
 
 app.listen(3000)
