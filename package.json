@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Richardo8/getPic#readme",
   "dependencies": {
-    "koa": "^2.0.0"
+    "koa": "^2.0.0",
+    "request": "^2.79.0"
   }
 }
